@@ -5,13 +5,13 @@ import numpy as np
 from inference_sdk import InferenceHTTPClient
 
 def tomato_classification(color_fruit, shape_fruit):
-    if color_fruit == "Ripe" and shape_fruit == "Beautiful":
+    if color_fruit == "Chin" and shape_fruit == "Dep":
         return "Loai A"
-    if color_fruit == "Ripe" and shape_fruit == "Distorted":
+    if color_fruit == "Chin" and shape_fruit == "Meo":
         return "Loai B"
-    if color_fruit == "Unripe" and shape_fruit == "Beautiful":
+    if color_fruit == "Chua Chin" and shape_fruit == "Dep":
         return "Loai C"
-    if color_fruit == "Unripe" and shape_fruit == "Distorted":
+    if color_fruit == "Chua Chin" and shape_fruit == "Meo":
         return "Loai D"
     return "Không xác định"
 # duong dan hinh anh co trong source code
@@ -58,15 +58,15 @@ if len(predictions) > 0:
         red_ratio = red_mask.sum() / red_mask.size
 
         if red_ratio > 0.35:
-            color_result = "Ripe"
+            color_result = "Chin"
         else:
-            color_result = "Unripe"
+            color_result = "Chua Chin"
 
         ratio = width / height
         if 0.8 <= ratio <= 1.4:
-            shape_result = "Beautiful"
+            shape_result = "Dep"
         else:
-            shape_result = "Distorted"
+            shape_result = "Meo"
 
         tomatoClass = tomato_classification(color_result,shape_result)
         cv2.putText(
@@ -80,6 +80,7 @@ if len(predictions) > 0:
             cv2.LINE_AA
         )
         img_main = cv2.resize(img_main, (800, int(height * (800 / width))))
+        print(f"{tomatoClass} | {color_result} | {shape_result}")
 else:
     print("khong tim thay qua trai")
 
@@ -118,7 +119,7 @@ if count_objects > 0:
     cv2.destroyAllWindows()
 else:
     print('Khong phat hien bi sau')
-
+print('so vet sau: ',count_objects)
 cv2.imshow("Ket qua nhan dien", img_main)
 cv2.waitKey(0)  # Nhấn phím bất kỳ để đóng cửa sổ
 cv2.destroyAllWindows()
